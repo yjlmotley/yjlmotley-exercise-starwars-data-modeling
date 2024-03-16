@@ -1,29 +1,31 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
 from sqlalchemy.orm import declarative_base
 from eralchemy2 import render_er
+import datetime
 
 Base = declarative_base()
 
 
-class Planets(Base): 
-    __tablename__ = 'planets'
+class Planet(Base): 
+    __tablename__ = 'planet'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     description = Column(String(500), nullable=True)
     character_pic = Column(String(512), nullable=True)
 
-class Characters(Base):
-    __tablename__ = 'characters'
+class Character(Base):
+    __tablename__ = 'character'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     description = Column(String(500), nullable=True)
     character_pic = Column(String(512), nullable=True)
 
-class Favorites(Base): 
-    __tablename__ = 'favorites'
+class FavoriteLike(Base): 
+    __tablename__ = 'favorite_like'
     id = Column(Integer, primary_key=True)
-    character_id = Column(String(50), ForeignKey('characters.id'))
-    planet_id = Column(String(50), ForeignKey('planets.id'))
+    character_id = Column(Integer, ForeignKey('character.id'))
+    planet_id = Column(Integer, ForeignKey('planet.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
 
 class Register(Base): 
     __tablename__ = 'register'
@@ -32,27 +34,18 @@ class Register(Base):
     username = Column(String(25), unique=True)
     email = Column(String(250), unique=True)
     password = Column(String(50), nullable=False)
-    confirm_password = Column(String(50), ForeignKey('register.password'))
 
 class LogIn(Base):
     __tablename__ = 'login'
     id = Column(Integer, primary_key=True)
-    username = Column(String(25), ForeignKey('register.id'))
-    password = Column(String(50), ForeignKey('register.id'))
+    datetime = Column(DateTime, default=datetime.datetime.now())
+    success = Column(Boolean, default=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
 
 class User(Base):
     __tablename__ = 'user'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), ForeignKey('register.id'))
-    username = Column(String(25), ForeignKey('register.id'))
-    # username = Column(String(25), ForeignKey('login.username'))
-    email = Column(String(250), ForeignKey('register.id'))
-    login_id = Column(String(50), ForeignKey('login.id'))
-    favorite_id = Column(String(50), ForeignKey('favorites.id'))
-    character_id = Column(String(50), ForeignKey('characters.id'))
-    planet_id = Column(String(50), ForeignKey('planets.id'))
+    register_id = Column(Integer, ForeignKey('register.id'))
 
     def to_dict(self):
         return {}
