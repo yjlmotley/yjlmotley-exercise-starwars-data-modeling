@@ -1,0 +1,10 @@
+last updated 8.31.24:
+
+revised project revamp.2 
+* refer to models_v2.py for reference
+* that models is attached to diagram_v2.png
+
+(for this project...)
+...after installing the dependencies needed...
+1. edit the models.py
+2. Then run in the terminal, `python src/models.py`
