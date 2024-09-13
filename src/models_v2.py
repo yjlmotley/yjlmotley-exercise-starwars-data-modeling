@@ -42,7 +42,7 @@ class Login(Base):
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    username = Column(String(50), nullable=True)
+    username = Column(String(50), nullable=True, unique=True)
     email = Column(String(250), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
 
