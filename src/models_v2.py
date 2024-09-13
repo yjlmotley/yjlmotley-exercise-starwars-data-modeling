@@ -11,7 +11,7 @@ class Planet(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     description = Column(String(500))
-    character_pic = Column(String(512))
+    planet_pic = Column(String(512))
 
     favorites = relationship('Favorite', backref='planet')
 
@@ -21,38 +21,35 @@ class Character(Base):
     name = Column(String(50), nullable=False)
     description = Column(String(500))
     character_pic = Column(String(512))
-
     favorites = relationship('Favorite', backref='character')
 
 class Favorite(Base): 
     __tablename__ = 'favorite'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    character_id = Column(Integer, ForeignKey('character.id'))
-    planet_id = Column(Integer, ForeignKey('planet.id'))
+    character_id = Column(Integer, ForeignKey('character.id'), nullable=True)
+    planet_id = Column(Integer, ForeignKey('planet.id') nullable=True)
 
 class Login(Base):
     __tablename__ = 'login'
     id = Column(Integer, primary_key=True)
-    datetime = Column(DateTime, default=datetime.datetime.now())
+    datetime = Column(DateTime, default=datetime.datetime.now)
     success = Column(Boolean, default=False)
-
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
     username = Column(String(50), nullable=True, unique=True)
-    email = Column(String(250), nullable=False, unique=True)
+    email = Column(String(250), nullable=True, unique=True)
     password = Column(String(50), nullable=False)
-
-    favorites = relationship('Favorite', backref='user')
     logins = relationship('Login', backref='user')
-
+    favorites = relationship('Favorite', backref='user')
 
     def to_dict(self):
         return {
             'id': self.id,
+            'username': self.username,
             'email': self.email
         }
 
