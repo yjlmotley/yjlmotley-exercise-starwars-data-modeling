@@ -25,16 +25,16 @@ class Character(Base):
 class Favorite(Base): 
     __tablename__ = 'favorite'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    character_id = Column(Integer, ForeignKey('character.id'), nullable=True)
-    planet_id = Column(Integer, ForeignKey('planet.id'), nullable=True)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    character_id = Column(Integer, ForeignKey('character.id', ondelete='CASCADE'), nullable=True)
+    planet_id = Column(Integer, ForeignKey('planet.id', ondelete='CASCADE'), nullable=True)
 
 class Login(Base):
     __tablename__ = 'login'
     id = Column(Integer, primary_key=True)
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    created_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
     success = Column(Boolean, default=False)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 
 class User(Base):
     __tablename__ = 'user'
@@ -54,4 +54,4 @@ class User(Base):
 
 
 ## Draw from SQLAlchemy base
-render_er(Base, 'diagram_v2.png')
+render_er(Base, 'diagram_v3.png')

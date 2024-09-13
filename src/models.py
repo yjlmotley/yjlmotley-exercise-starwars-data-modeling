@@ -38,7 +38,7 @@ class Register(Base):
 class LogIn(Base):
     __tablename__ = 'login'
     id = Column(Integer, primary_key=True)
-    datetime = Column(DateTime, default=datetime.datetime.now())
+    datetime = Column(DateTime, default=datetime.datetime.now)
     success = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey('user.id'))
 

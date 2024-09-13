@@ -1,10 +1,19 @@
-last updated 8.31.24:
-
-revised project revamp.2 
-* refer to models_v2.py for reference
-* that models is attached to diagram_v2.png
+last updated & checked for bugs: 9.13.24
 
 (for this project...)
 ...after installing the dependencies needed...
 1. edit the models.py
 2. Then run in the terminal, `python src/models.py`
+
+
+revised project revamp.3:
+* refer to models_v3.py for reference (`python src/models_v3.py`)
+* that models is attached to diagram_v3.png
+* difference b/n models_v2 & models_v3 is that ...
+    * models_v3 uses datime.timezone.utc so it refers to the coordinated universal timezone
+    * It also uses ondelete='CASCADE' so that the rows (user.id, character.id, planet.id) 
+    gets deleted as well from the Favorite & User table when the respective user, planet, or character gets deleted. 
+
+revised project revamp.2 
+* refer to models_v2.py for reference (`python src/models_v2.py`)
+* that models is attached to diagram_v2.png
