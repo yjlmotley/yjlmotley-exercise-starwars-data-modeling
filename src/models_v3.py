@@ -32,8 +32,8 @@ class Favorite(Base):
     def serialize(self):
         return {
             "type": "character" if self.character else "planet",
-            "name": self.character.name if self.character else self.planet.name,
-            "id": self.character.id if self.character else self.planet.id
+            "id": self.character.id if self.character else self.planet.id,
+            "name": self.character.name if self.character else self.planet.name
         }
 
 class Login(Base):
