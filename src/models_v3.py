@@ -29,6 +29,13 @@ class Favorite(Base):
     character_id = Column(Integer, ForeignKey('character.id', ondelete='CASCADE'), nullable=True)
     planet_id = Column(Integer, ForeignKey('planet.id', ondelete='CASCADE'), nullable=True)
 
+    def serialize(self):
+        return {
+            "type": "character" if self.character else "planet",
+            "name": self.character.name if self.character else self.planet.name,
+            "id": self.character.id if self.character else self.planet.id
+        }
+
 class Login(Base):
     __tablename__ = 'login'
     id = Column(Integer, primary_key=True)
@@ -39,9 +46,9 @@ class Login(Base):
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    username = Column(String(50), nullable=True, unique=True)
-    email = Column(String(250), nullable=True, unique=True)
-    password = Column(String(50), nullable=False)
+    username = Column(String(50), nullable=False, unique=True)
+    email = Column(String(250), nullable=False, unique=True)
+    password = Column(String(256), nullable=False)
     logins = relationship('Login', backref='user')
     favorites = relationship('Favorite', backref='user')
 
@@ -49,7 +56,8 @@ class User(Base):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'favorites': [favorite.serialize() for favorite in self.favorites]
         }
 
 
